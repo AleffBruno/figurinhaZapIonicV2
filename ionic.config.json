@@ -1,0 +1,7 @@
+{
+  "name": "memes",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
