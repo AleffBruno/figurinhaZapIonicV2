@@ -18,7 +18,10 @@
       <img [src]="trayUrl(pack)" [alt]="pack.name" class="pack-tray">
       <div class="pack-info">
         <h1>{{ pack.name }}</h1>
-        <p>{{ pack.stickers.length }} figurinhas</p>
+        <p>
+          {{ pack.stickers.length }} figurinhas
+          <span *ngIf="isAnimated(pack)" class="animated-badge">Animado</span>
+        </p>
       </div>
     </div>
 

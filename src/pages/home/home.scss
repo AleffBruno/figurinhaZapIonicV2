@@ -46,6 +46,17 @@ page-home {
     margin: 0;
   }
 
+  .animated-badge {
+    background: #25d366;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 6px;
+    padding: 1px 6px;
+    vertical-align: middle;
+  }
+
   .sticker-grid {
     display: flex;
     flex-wrap: wrap;

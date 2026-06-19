@@ -74,6 +74,7 @@
     "cordova-sqlite-storage": "7.0.0",
     "cordova-support-android-plugin": "~2.0.4",
     "cordova-whatsapp-stickers": "file:plugins-local/cordova-whatsapp-stickers-vinoosir",
+    "sharp": "^0.35.2",
     "sql.js": "0.5.0",
     "typescript": "^3.1.1"
   },

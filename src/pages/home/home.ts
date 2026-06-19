@@ -18,6 +18,7 @@ interface StickerPack {
   name: string;
   publisher: string;
   tray_image_file: string;
+  animated_sticker_pack?: boolean;
   stickers: Sticker[];
 }
 
@@ -71,6 +72,10 @@ export class HomePage {
 
   isExpanded(pack: StickerPack): boolean {
     return this.expandedPack === pack.identifier;
+  }
+
+  isAnimated(pack: StickerPack): boolean {
+    return pack.animated_sticker_pack === true;
   }
 
   addToWhatsApp(pack: StickerPack, event: Event) {
