@@ -1,3 +1,78 @@
 page-home {
-  
+  .loading-text {
+    color: #999;
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .pack-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 16px auto;
+    max-width: 480px;
+    padding: 16px;
+  }
+
+  .pack-header {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 16px;
+  }
+
+  .pack-tray {
+    background: #f4f4f4;
+    border-radius: 16px;
+    flex-shrink: 0;
+    height: 72px;
+    object-fit: contain;
+    padding: 8px;
+    width: 72px;
+  }
+
+  .pack-info {
+    flex: 1;
+  }
+
+  .pack-info h1 {
+    color: #222;
+    font-size: 20px;
+    margin: 0 0 4px;
+  }
+
+  .pack-info p {
+    color: #888;
+    margin: 0;
+  }
+
+  .sticker-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .sticker-item {
+    text-align: center;
+    width: 72px;
+  }
+
+  .sticker-item img {
+    background: #f9f9f9;
+    border-radius: 8px;
+    height: 64px;
+    object-fit: contain;
+    width: 64px;
+  }
+
+  .sticker-emojis {
+    display: block;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  button {
+    margin-top: 12px;
+  }
 }

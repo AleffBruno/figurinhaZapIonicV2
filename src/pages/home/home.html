@@ -1,7 +1,36 @@
 <ion-header>
-    teste
+  <ion-navbar color="primary">
+    <ion-title>FigurinhaZap</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  OLA MUNDO
+  <div *ngIf="loading" class="loading-text">
+    Carregando figurinhas...
+  </div>
+
+  <div *ngIf="!loading && packs.length === 0" class="loading-text">
+    Nenhum pacote de figurinhas encontrado.
+  </div>
+
+  <div *ngFor="let pack of packs" class="pack-card" (click)="togglePack(pack)">
+    <div class="pack-header">
+      <img [src]="trayUrl(pack)" [alt]="pack.name" class="pack-tray">
+      <div class="pack-info">
+        <h1>{{ pack.name }}</h1>
+        <p>{{ pack.stickers.length }} figurinhas</p>
+      </div>
+    </div>
+
+    <div *ngIf="isExpanded(pack)" class="sticker-grid">
+      <div *ngFor="let sticker of pack.stickers" class="sticker-item">
+        <img [src]="stickerUrl(pack, sticker)" [alt]="sticker.image_file">
+        <span class="sticker-emojis">{{ sticker.emojis.join("") }}</span>
+      </div>
+    </div>
+
+    <button ion-button block color="secondary" (click)="addToWhatsApp(pack, $event)">
+      Adicionar ao WhatsApp
+    </button>
+  </div>
 </ion-content>

@@ -1,0 +1,40 @@
+{
+  "name": "cordova-whatsapp-stickers",
+  "version": "2.0.0",
+  "description": "Cordova Plugin for WhatsApp Stickers, updated against the official WhatsApp/stickers reference (Android 11+ package-visibility, WhatsApp Business, dynamic ContentProvider authority, accessibility_text). Compatible with Cordova CLI, Ionic, etc.",
+  "cordova": {
+    "id": "cordova-whatsapp-stickers",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinoosir/cordova-whatsapp-stickers.git"
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "whatsapp",
+    "stickers",
+    "whatsapp stickers",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+"devDependencies": {
+    "cordova": ">=9.0.0"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=9.0.0"
+    }
+  ],
+  "author": "Milad Mohammadi Rezagah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vinoosir/cordova-whatsapp-stickers/issues"
+  },
+  "homepage": "https://github.com/vinoosir/cordova-whatsapp-stickers#readme"
+}

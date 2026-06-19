@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-whatsapp-stickers",
+  "version": "0.0.1",
+  "description": "Cordova plugin to add local sticker packs to WhatsApp.",
+  "cordova": {
+    "id": "cordova-plugin-whatsapp-stickers",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "whatsapp",
+    "stickers"
+  ],
+  "license": "MIT"
+}
