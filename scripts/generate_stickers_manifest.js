@@ -57,6 +57,10 @@ function isGifFile(name) {
   return name.toLowerCase().endsWith('.gif');
 }
 
+function isPngFile(name) {
+  return name.toLowerCase().endsWith('.png');
+}
+
 /**
  * Pure-Node animated WebP detector. Scans RIFF chunks for animation markers
  * (VP8X animation flag, ANIM chunk, or any ANMF frame chunk). Avoids pulling
@@ -545,6 +549,31 @@ async function buildPack(folderName, srcPackDir, wwwPackDir) {
   };
 }
 
+/**
+ * Remove non-tray .png files from every pack subdirectory under wwwImgsDir.
+ * Runs after all sticker .webp generation and the contents.json write, so the
+ * APK never ships redundant .png intermediates. tray.png is preserved (it is
+ * referenced by contents.json), and top-level .png (logo.png, drive.png, etc.)
+ * are untouched because only pack subdirectories are scanned.
+ */
+function cleanupPngInPacks(wwwImgsDir) {
+  var removed = 0;
+  fs.readdirSync(wwwImgsDir).forEach(function (packName) {
+    var packDir = path.join(wwwImgsDir, packName);
+    if (!fs.statSync(packDir).isDirectory()) return;
+    fs.readdirSync(packDir).forEach(function (file) {
+      if ((isPngFile(file) || isGifFile(file)) && !isTrayFile(file)) {
+        fs.unlinkSync(path.join(packDir, file));
+        removed++;
+        console.log(`[stickers] Removed redundant ${file.replace(/.*\./, '.')}: ${packName}/${file}`);
+      }
+    });
+  });
+  if (removed) {
+    console.log('[stickers] Cleaned up ' + removed + ' redundant .png file(s) from www/assets/imgs packs.');
+  }
+}
+
 module.exports = async function (ctx) {
   var root = findProjectRoot();
   var srcImgsDir = path.join(root, 'src', 'assets', 'imgs');
@@ -600,4 +629,6 @@ module.exports = async function (ctx) {
     (packs.length ? packs.map(function (p) {
       return p.identifier + (p.animated_sticker_pack ? ' (animated)' : '');
     }).join(', ') : '(none)'));
+
+  cleanupPngInPacks(wwwImgsDir);
 };
