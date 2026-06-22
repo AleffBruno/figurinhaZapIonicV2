@@ -85,6 +85,7 @@ function isAnimatedWebp(buf) {
 }
 
 var ANIMATED_STICKER_FILE_LIMIT_KB = 500;
+var STATIC_STICKER_FILE_LIMIT_KB = 100;
 
 /**
  * Convert an animated GIF to an animated WebP sticker (512x512, <=500KB)
@@ -131,6 +132,88 @@ async function convertGifToWebp(packDir, gifName) {
   fs.writeFileSync(webpPath, chosen);
   console.log('[stickers] Converted "' + gifName + '" -> "' + webpName + '" (' + Math.round(chosen.length / 1024) + 'KB).');
   return webpName;
+}
+
+/**
+ * Convert a static PNG sticker to a static WebP sticker (512x512, <=100KB)
+ * using sharp. Writes <basename>.webp next to the png. Returns the output
+ * filename, or null if conversion was skipped or failed. Mirrors
+ * convertGifToWebp but without animation options and against the 100KB
+ * static limit. Pre-made .webp wins (png is skipped if a twin exists).
+ */
+async function convertPngToWebp(packDir, pngName) {
+  var base = pngName.replace(/\.png$/i, '');
+  var webpName = base + '.webp';
+  var webpPath = path.join(packDir, webpName);
+  if (fs.existsSync(webpPath)) {
+    console.warn('[stickers] WARNING: "' + pngName + '" skipped, pre-made "' + webpName + '" already exists.');
+    return null;
+  }
+  var sharp;
+  try {
+    sharp = require('sharp');
+  } catch (e) {
+    console.warn('[stickers] WARNING: "sharp" not installed, cannot convert "' + pngName + '". Run: yarn add -D sharp');
+    return null;
+  }
+  var pngPath = path.join(packDir, pngName);
+  var qualities = [90, 80, 70, 60, 50, 40];
+  var limitBytes = STATIC_STICKER_FILE_LIMIT_KB * 1024;
+  var chosen = null;
+  for (var i = 0; i < qualities.length; i++) {
+    var buf;
+    try {
+      buf = await sharp(fs.readFileSync(pngPath))
+        .resize(STICKER_EDGE, STICKER_EDGE, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .webp({ quality: qualities[i], alphaQuality: 100 })
+        .toBuffer();
+    } catch (e) {
+      console.warn('[stickers] WARNING: sharp failed to convert "' + pngName + '": ' + e.message);
+      return null;
+    }
+    chosen = buf;
+    if (buf.length <= limitBytes) break;
+  }
+  if (chosen.length > limitBytes) {
+    console.warn('[stickers] WARNING: "' + pngName + '" -> ' + Math.round(chosen.length / 1024) +
+      'KB exceeds the ' + STATIC_STICKER_FILE_LIMIT_KB + 'KB WhatsApp static limit.');
+  }
+  fs.writeFileSync(webpPath, chosen);
+  console.log('[stickers] Converted "' + pngName + '" -> "' + webpName + '" (' + Math.round(chosen.length / 1024) + 'KB).');
+  return webpName;
+}
+
+var TRAY_EDGE = 96;
+
+/**
+ * Generate a tray.png for a pack that has none, using the first sticker as
+ * the source. WhatsApp allows tray icons from 24x24 to 512x512 and <=50KB;
+ * 96x96 PNG is the recommended size and stays well under the limit. Reads
+ * the first frame of an animated WebP automatically. Returns 'tray.png' on
+ * success, or null on failure so the caller can still skip the pack.
+ */
+async function generateTrayFromSticker(packDir, srcStickerFile) {
+  var sharp;
+  try {
+    sharp = require('sharp');
+  } catch (e) {
+    console.warn('[stickers] WARNING: "sharp" not installed, cannot generate tray icon.');
+    return null;
+  }
+  var trayName = 'tray.png';
+  var trayPath = path.join(packDir, trayName);
+  try {
+    var buf = await sharp(fs.readFileSync(path.join(packDir, srcStickerFile)))
+      .resize(TRAY_EDGE, TRAY_EDGE, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .png()
+      .toBuffer();
+    fs.writeFileSync(trayPath, buf);
+    console.log('[stickers] Generated tray.png from "' + srcStickerFile + '" (' + Math.round(buf.length / 1024) + 'KB).');
+    return trayName;
+  } catch (e) {
+    console.warn('[stickers] WARNING: could not generate tray from "' + srcStickerFile + '": ' + e.message);
+    return null;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -332,13 +415,13 @@ async function convertStaticToAnimatedWebp(packDir, fileName) {
 
 /**
  * Collect all image source files in a pack dir for hashing: *.webp, *.gif,
- * and tray.png. Sorted by filename for deterministic ordering.
+ * *.png, and tray.png. Sorted by filename for deterministic ordering.
  */
 function collectImageFiles(packDir) {
   var entries = fs.readdirSync(packDir);
   var images = entries.filter(function (name) {
     var lower = name.toLowerCase();
-    return lower.endsWith('.webp') || lower.endsWith('.gif') || lower === 'tray.png';
+    return lower.endsWith('.webp') || lower.endsWith('.gif') || lower.endsWith('.png');
   });
   images.sort();
   return images;
@@ -361,8 +444,9 @@ function computePackHash(packDir) {
 
 /**
  * Build the default stickers map for a new metadata.json by discovering
- * image files in the src pack dir. Gif files are keyed by their eventual
- * .webp name (matching what appears in contents.json). Tray files excluded.
+ * image files in the src pack dir. Gif and png files are keyed by their
+ * eventual .webp name (matching what appears in contents.json). Tray files
+ * excluded.
  */
 function buildDefaultStickersMap(srcPackDir) {
   var entries = fs.readdirSync(srcPackDir);
@@ -374,6 +458,11 @@ function buildDefaultStickersMap(srcPackDir) {
       map[name] = { emojis: ['😀'], accessibility_text: '' };
     } else if (lower.endsWith('.gif')) {
       var webpName = name.replace(/\.gif$/i, '.webp');
+      if (!fs.existsSync(path.join(srcPackDir, webpName))) {
+        map[webpName] = { emojis: ['😀'], accessibility_text: '' };
+      }
+    } else if (lower.endsWith('.png')) {
+      var webpName = name.replace(/\.png$/i, '.webp');
       if (!fs.existsSync(path.join(srcPackDir, webpName))) {
         map[webpName] = { emojis: ['😀'], accessibility_text: '' };
       }
@@ -449,6 +538,11 @@ async function buildPack(folderName, srcPackDir, wwwPackDir) {
     await convertGifToWebp(wwwPackDir, gifs[g]);
   }
 
+  var pngs = entries.filter(function (n) { return isPngFile(n) && !isTrayFile(n); });
+  for (var pn = 0; pn < pngs.length; pn++) {
+    await convertPngToWebp(wwwPackDir, pngs[pn]);
+  }
+
   entries = fs.readdirSync(wwwPackDir);
   var trayFile = null;
   var stickerFiles = [];
@@ -462,6 +556,10 @@ async function buildPack(folderName, srcPackDir, wwwPackDir) {
   });
 
   stickerFiles.sort();
+
+  if (!trayFile && stickerFiles.length > 0) {
+    trayFile = await generateTrayFromSticker(wwwPackDir, stickerFiles[0]);
+  }
 
   if (!trayFile) {
     console.warn('[stickers] WARNING: pack "' + folderName + '" has no tray.png/tray.webp — skipping.');
