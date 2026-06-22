@@ -9,7 +9,8 @@
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
-    "ios": "rm -rf platforms plugins package-lock.json && ionic build && ionic cordova platform add ios"
+    "ios": "rm -rf platforms plugins package-lock.json && ionic build && ionic cordova platform add ios",
+    "build:assets": "rm -rf www && ionic build && node -e 'require(\"./scripts/generate_stickers_manifest.js\")()'"
   },
   "config": {
     "ionic_webpack": "./config/webpack.config.js"
