@@ -31,6 +31,7 @@
  */
 var fs = require('fs');
 var path = require('path');
+var crypto = require('crypto');
 
 function findProjectRoot() {
   var dir = process.cwd();
@@ -311,15 +312,140 @@ async function convertStaticToAnimatedWebp(packDir, fileName) {
   return true;
 }
 
-async function buildPack(folderName, packDir) {
+/* ---------------------------------------------------------------------------
+ * metadata.json management + hash-based image_data_version bumping.
+ *
+ * Each pack in src/assets/imgs/<pack>/ gets a metadata.json that stores
+ * user-authored fields (name, publisher, per-sticker emojis, etc.) plus two
+ * internal fields:
+ *   - image_hash:       SHA-256 over all source images (stickers + tray)
+ *   - image_data_version: bumped automatically when the hash changes
+ *
+ * The hook runs in two phases:
+ *   Phase 1 (src/):  ensure metadata.json exists, compare hash, bump version
+ *   Phase 2 (www/):  image processing + contents.json generation
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Collect all image source files in a pack dir for hashing: *.webp, *.gif,
+ * and tray.png. Sorted by filename for deterministic ordering.
+ */
+function collectImageFiles(packDir) {
   var entries = fs.readdirSync(packDir);
+  var images = entries.filter(function (name) {
+    var lower = name.toLowerCase();
+    return lower.endsWith('.webp') || lower.endsWith('.gif') || lower === 'tray.png';
+  });
+  images.sort();
+  return images;
+}
+
+/**
+ * Compute a deterministic SHA-256 hash over all image files in a pack dir.
+ * Covers file names (so add/remove is detected) and file contents (so
+ * modification is detected). Returns a hex string.
+ */
+function computePackHash(packDir) {
+  var files = collectImageFiles(packDir);
+  var hash = crypto.createHash('sha256');
+  for (var i = 0; i < files.length; i++) {
+    var content = fs.readFileSync(path.join(packDir, files[i]));
+    hash.update(files[i] + ':' + content.toString('hex') + '\n');
+  }
+  return hash.digest('hex');
+}
+
+/**
+ * Build the default stickers map for a new metadata.json by discovering
+ * image files in the src pack dir. Gif files are keyed by their eventual
+ * .webp name (matching what appears in contents.json). Tray files excluded.
+ */
+function buildDefaultStickersMap(srcPackDir) {
+  var entries = fs.readdirSync(srcPackDir);
+  var map = {};
+  entries.forEach(function (name) {
+    if (isTrayFile(name)) return;
+    var lower = name.toLowerCase();
+    if (lower.endsWith('.webp')) {
+      map[name] = { emojis: ['😀'], accessibility_text: '' };
+    } else if (lower.endsWith('.gif')) {
+      var webpName = name.replace(/\.gif$/i, '.webp');
+      if (!fs.existsSync(path.join(srcPackDir, webpName))) {
+        map[webpName] = { emojis: ['😀'], accessibility_text: '' };
+      }
+    }
+  });
+  return map;
+}
+
+/**
+ * Ensure metadata.json exists in the pack dir. Creates it with defaults
+ * if missing (or if the existing file is invalid JSON). Returns the parsed
+ * metadata object.
+ */
+function ensureMetadataJson(srcPackDir, folderName) {
+  var metadataPath = path.join(srcPackDir, 'metadata.json');
+  if (fs.existsSync(metadataPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+    } catch (e) {
+      console.warn('[stickers] WARNING: pack "' + folderName + '" has invalid metadata.json — recreating.');
+    }
+  }
+  var defaults = {
+    name: folderName,
+    publisher: 'FigurinhaZap',
+    publisher_email: '',
+    publisher_website: '',
+    privacy_policy_website: '',
+    license_agreement_website: '',
+    animated: null,
+    image_data_version: '1',
+    image_hash: '',
+    stickers: buildDefaultStickersMap(srcPackDir)
+  };
+  fs.writeFileSync(metadataPath, JSON.stringify(defaults, null, 2));
+  console.log('[stickers] Created metadata.json for pack "' + folderName + '".');
+  return defaults;
+}
+
+/**
+ * Compare current image hash with stored hash. If images changed (or this
+ * is the first run with no hash), bump image_data_version and update the
+ * stored hash. Writes the updated metadata.json back to disk.
+ */
+function updateMetadataVersion(srcPackDir, metadata) {
+  var currentHash = computePackHash(srcPackDir);
+  var metadataPath = path.join(srcPackDir, 'metadata.json');
+
+  if (!metadata.image_hash) {
+    metadata.image_hash = currentHash;
+    fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+    console.log('[stickers] Stored image hash for pack "' + metadata.name + '" (version ' + metadata.image_data_version + ').');
+    return;
+  }
+
+  if (metadata.image_hash === currentHash) {
+    console.log('[stickers] Pack "' + metadata.name + '" images unchanged (version ' + metadata.image_data_version + ').');
+    return;
+  }
+
+  var version = parseInt(metadata.image_data_version, 10) || 1;
+  metadata.image_data_version = String(version + 1);
+  metadata.image_hash = currentHash;
+  fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+  console.log('[stickers] Pack "' + metadata.name + '" images changed — bumped to version ' + metadata.image_data_version + '.');
+}
+
+async function buildPack(folderName, srcPackDir, wwwPackDir) {
+  var entries = fs.readdirSync(wwwPackDir);
 
   var gifs = entries.filter(isGifFile);
   for (var g = 0; g < gifs.length; g++) {
-    await convertGifToWebp(packDir, gifs[g]);
+    await convertGifToWebp(wwwPackDir, gifs[g]);
   }
 
-  entries = fs.readdirSync(packDir);
+  entries = fs.readdirSync(wwwPackDir);
   var trayFile = null;
   var stickerFiles = [];
 
@@ -348,25 +474,30 @@ async function buildPack(folderName, packDir) {
     stickerFiles = stickerFiles.slice(0, 30);
   }
 
-  var packJson = null;
-  var packJsonPath = path.join(packDir, 'pack.json');
-  if (fs.existsSync(packJsonPath)) {
+  var metadata = null;
+  var metadataPath = path.join(srcPackDir, 'metadata.json');
+  if (fs.existsSync(metadataPath)) {
     try {
-      packJson = JSON.parse(fs.readFileSync(packJsonPath, 'utf8'));
+      metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
     } catch (e) {
-      console.warn('[stickers] WARNING: pack "' + folderName + '" has invalid pack.json — using defaults.');
-      packJson = null;
+      console.warn('[stickers] WARNING: pack "' + folderName + '" has invalid metadata.json — using defaults.');
+      metadata = null;
     }
   }
 
-  var name = (packJson && packJson.name) ? packJson.name : folderName;
-  var publisher = (packJson && packJson.publisher) ? packJson.publisher : 'FigurinhaZap';
-  var stickerMeta = (packJson && packJson.stickers) ? packJson.stickers : {};
+  var name = (metadata && metadata.name) ? metadata.name : folderName;
+  var publisher = (metadata && metadata.publisher) ? metadata.publisher : 'FigurinhaZap';
+  var publisherEmail = (metadata && metadata.publisher_email) ? metadata.publisher_email : '';
+  var publisherWebsite = (metadata && metadata.publisher_website) ? metadata.publisher_website : '';
+  var privacyPolicyWebsite = (metadata && metadata.privacy_policy_website) ? metadata.privacy_policy_website : '';
+  var licenseAgreementWebsite = (metadata && metadata.license_agreement_website) ? metadata.license_agreement_website : '';
+  var imageDataVersion = (metadata && metadata.image_data_version) ? String(metadata.image_data_version) : '1';
+  var stickerMeta = (metadata && metadata.stickers) ? metadata.stickers : {};
 
   var detectedAnimated = false;
   for (var s = 0; s < stickerFiles.length; s++) {
     try {
-      var webpBuf = fs.readFileSync(path.join(packDir, stickerFiles[s]));
+      var webpBuf = fs.readFileSync(path.join(wwwPackDir, stickerFiles[s]));
       if (isAnimatedWebp(webpBuf)) {
         detectedAnimated = true;
         break;
@@ -376,15 +507,15 @@ async function buildPack(folderName, packDir) {
     }
   }
   var animated;
-  if (packJson && typeof packJson.animated === 'boolean') {
-    animated = packJson.animated;
+  if (metadata && typeof metadata.animated === 'boolean') {
+    animated = metadata.animated;
   } else {
     animated = detectedAnimated;
   }
 
   if (animated) {
     for (var a = 0; a < stickerFiles.length; a++) {
-      await convertStaticToAnimatedWebp(packDir, stickerFiles[a]);
+      await convertStaticToAnimatedWebp(wwwPackDir, stickerFiles[a]);
     }
   }
 
@@ -403,12 +534,12 @@ async function buildPack(folderName, packDir) {
     name: name,
     publisher: publisher,
     tray_image_file: trayFile,
-    image_data_version: '1',
+    image_data_version: imageDataVersion,
     avoid_cache: false,
-    publisher_email: '',
-    publisher_website: '',
-    privacy_policy_website: '',
-    license_agreement_website: '',
+    publisher_email: publisherEmail,
+    publisher_website: publisherWebsite,
+    privacy_policy_website: privacyPolicyWebsite,
+    license_agreement_website: licenseAgreementWebsite,
     animated_sticker_pack: animated,
     stickers: stickers
   };
@@ -416,10 +547,23 @@ async function buildPack(folderName, packDir) {
 
 module.exports = async function (ctx) {
   var root = findProjectRoot();
-  var imgsDir = path.join(root, 'www', 'assets', 'imgs');
+  var srcImgsDir = path.join(root, 'src', 'assets', 'imgs');
+  var wwwImgsDir = path.join(root, 'www', 'assets', 'imgs');
   var manifestPath = path.join(root, 'www', 'contents.json');
 
-  if (!fs.existsSync(imgsDir)) {
+  if (fs.existsSync(srcImgsDir)) {
+    var srcEntries = fs.readdirSync(srcImgsDir);
+    for (var p = 0; p < srcEntries.length; p++) {
+      var srcEntry = srcEntries[p];
+      var srcPackDir = path.join(srcImgsDir, srcEntry);
+      if (fs.statSync(srcPackDir).isDirectory()) {
+        var metadata = ensureMetadataJson(srcPackDir, srcEntry);
+        updateMetadataVersion(srcPackDir, metadata);
+      }
+    }
+  }
+
+  if (!fs.existsSync(wwwImgsDir)) {
     console.log('[stickers] www/assets/imgs not found, writing empty manifest.');
     fs.writeFileSync(manifestPath, JSON.stringify({
       android_play_store_link: '',
@@ -429,14 +573,16 @@ module.exports = async function (ctx) {
     return;
   }
 
-  var entries = fs.readdirSync(imgsDir);
+  var entries = fs.readdirSync(wwwImgsDir);
   var packs = [];
 
   for (var i = 0; i < entries.length; i++) {
     var entry = entries[i];
-    var packDir = path.join(imgsDir, entry);
-    if (fs.statSync(packDir).isDirectory()) {
-      var pack = await buildPack(entry, packDir);
+    var wwwPackDir = path.join(wwwImgsDir, entry);
+    if (fs.statSync(wwwPackDir).isDirectory()) {
+      var srcPackDir = path.join(srcImgsDir, entry);
+      var srcDir = fs.existsSync(srcPackDir) ? srcPackDir : wwwPackDir;
+      var pack = await buildPack(entry, srcDir, wwwPackDir);
       if (pack) {
         packs.push(pack);
       }
