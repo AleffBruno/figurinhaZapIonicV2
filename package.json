@@ -10,7 +10,7 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ios": "rm -rf platforms plugins package-lock.json && ionic build && ionic cordova platform add ios",
-    "build:assets": "rm -rf www && ionic build && node -e \"require('./scripts/generate_stickers_manifest.js')()\""
+    "build:assets": "rm -rf www && ionic build && node scripts/generate_stickers_manifest.js"
   },
   "resolutions": {
     "node-sass": "9.0.0"
@@ -57,7 +57,6 @@
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-badge": "^0.8.9",
     "cordova-plugin-badge-fix": "^0.8.10",
-
     "cordova-plugin-device": "3.0.0",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-idfa": "^2.1.0",

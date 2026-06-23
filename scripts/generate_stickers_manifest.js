@@ -61,6 +61,29 @@ function isPngFile(name) {
   return name.toLowerCase().endsWith('.png');
 }
 
+function sleep(ms) {
+  return new Promise(function (resolve) { setTimeout(resolve, ms); });
+}
+
+async function unlinkWithRetry(filePath) {
+  var maxAttempts = 3;
+  var delays = [100, 200, 300];
+  for (var attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      fs.unlinkSync(filePath);
+      return true;
+    } catch (e) {
+      var retryable = e.code === 'EBUSY' || e.code === 'EPERM' || e.code === 'ENOTEMPTY';
+      if (!retryable || attempt === maxAttempts - 1) {
+        console.warn('[stickers] WARNING: could not delete "' + path.basename(filePath) + '": ' + (e.code || '') + ' (' + e.message + ')');
+        return false;
+      }
+      await sleep(delays[attempt]);
+    }
+  }
+  return false;
+}
+
 /**
  * Pure-Node animated WebP detector. Scans RIFF chunks for animation markers
  * (VP8X animation flag, ANIM chunk, or any ANMF frame chunk). Avoids pulling
@@ -654,21 +677,33 @@ async function buildPack(folderName, srcPackDir, wwwPackDir) {
  * referenced by contents.json), and top-level .png (logo.png, drive.png, etc.)
  * are untouched because only pack subdirectories are scanned.
  */
-function cleanupPngInPacks(wwwImgsDir) {
+async function cleanupPngInPacks(wwwImgsDir) {
   var removed = 0;
-  fs.readdirSync(wwwImgsDir).forEach(function (packName) {
+  var failed = 0;
+  var packNames = fs.readdirSync(wwwImgsDir);
+  for (var pi = 0; pi < packNames.length; pi++) {
+    var packName = packNames[pi];
     var packDir = path.join(wwwImgsDir, packName);
-    if (!fs.statSync(packDir).isDirectory()) return;
-    fs.readdirSync(packDir).forEach(function (file) {
+    if (!fs.statSync(packDir).isDirectory()) continue;
+    var files = fs.readdirSync(packDir);
+    for (var fi = 0; fi < files.length; fi++) {
+      var file = files[fi];
       if ((isPngFile(file) || isGifFile(file)) && !isTrayFile(file)) {
-        fs.unlinkSync(path.join(packDir, file));
-        removed++;
-        console.log(`[stickers] Removed redundant ${file.replace(/.*\./, '.')}: ${packName}/${file}`);
+        var ok = await unlinkWithRetry(path.join(packDir, file));
+        if (ok) {
+          removed++;
+          console.log(`[stickers] Removed redundant ${file.replace(/.*\./, '.')}: ${packName}/${file}`);
+        } else {
+          failed++;
+        }
       }
-    });
-  });
+    }
+  }
   if (removed) {
     console.log('[stickers] Cleaned up ' + removed + ' redundant .png file(s) from www/assets/imgs packs.');
+  }
+  if (failed) {
+    console.warn('[stickers] WARNING: ' + failed + ' file(s) could not be deleted (locked by another process?). Re-run build:assets.');
   }
 }
 
@@ -728,5 +763,12 @@ module.exports = async function (ctx) {
       return p.identifier + (p.animated_sticker_pack ? ' (animated)' : '');
     }).join(', ') : '(none)'));
 
-  cleanupPngInPacks(wwwImgsDir);
+  await cleanupPngInPacks(wwwImgsDir);
 };
+
+if (require.main === module) {
+  module.exports().catch(function (e) {
+    console.error('[stickers] FATAL: ' + (e && e.stack || e));
+    process.exit(1);
+  });
+}
