@@ -157,5 +157,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^5.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-plugin-whatsapp-stickers" spec="./plugins-local/cordova-whatsapp-stickers-vinoosir" />
+    <plugin name="cordova-whatsapp-stickers" spec="./plugins-local/cordova-whatsapp-stickers-vinoosir" />
 </widget>
