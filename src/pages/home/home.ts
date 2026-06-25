@@ -35,6 +35,7 @@ export class HomePage {
   packs: StickerPack[] = [];
   expandedPack: string | null = null;
   loading = true;
+  stickerSize = 104;
 
   constructor(
     private alertCtrl: AlertController,

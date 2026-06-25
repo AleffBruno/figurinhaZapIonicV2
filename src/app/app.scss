@@ -16,4 +16,13 @@
 // automatically applied to the <body> element in the app.
 
 
+// WhatsApp-style chat background, switched by ThemeService (body.dark-theme)
+:root {
+  --wa-chat-bg: #efeae2;
+}
+
+body.dark-theme {
+  --wa-chat-bg: #0b141a;
+}
+
 //fim de my-modal

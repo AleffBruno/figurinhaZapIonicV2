@@ -3,6 +3,7 @@ import { Config, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { createConnection } from 'typeorm';
+import { ThemeService } from '../providers/theme/theme';
 @Component({
   templateUrl: 'app.html'
 })
@@ -14,6 +15,7 @@ export class MyApp {
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     private config: Config,
+    private themeService: ThemeService,
   ) {
 
     platform.ready().then(async () => {
@@ -28,6 +30,7 @@ export class MyApp {
 
       this.config.set('ios', 'backButtonText', 'Voltar');
 
+      this.themeService.init();
 
       this.rootPage = "HomePage";
     });
