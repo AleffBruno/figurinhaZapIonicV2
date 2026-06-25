@@ -96,6 +96,17 @@ export class HomePage {
     );
   }
 
+  presentSticker(pack: StickerPack, sticker: Sticker) {
+    const url = this.stickerUrl(pack, sticker);
+    const alt = sticker.accessibility_text || sticker.image_file;
+    this.alertCtrl.create({
+      message: `<img src="${url}" alt="${alt}"` +
+        ` style="display:block;margin:0 auto;max-width:256px;width:100%;height:auto;border-radius:8px;">`,
+      buttons: ["OK"],
+      enableBackdropDismiss: true,
+    }).present();
+  }
+
   private showAlert(title: string, message: string) {
     this.alertCtrl.create({
       title,

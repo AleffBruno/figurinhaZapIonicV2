@@ -26,7 +26,12 @@
     </div>
 
     <div *ngIf="isExpanded(pack)" class="sticker-grid">
-      <div *ngFor="let sticker of pack.stickers" class="sticker-item" [style.width.px]="stickerSize + 8">
+      <div
+        *ngFor="let sticker of pack.stickers"
+        (click)="$event.stopPropagation(); presentSticker(pack, sticker)"
+        class="sticker-item"
+        [style.width.px]="stickerSize + 8"
+      >
         <img [src]="stickerUrl(pack, sticker)" [alt]="sticker.image_file"
              [style.width.px]="stickerSize" [style.height.px]="stickerSize">
       </div>
