@@ -87,7 +87,7 @@
         "ANDROID_PLAY_ADID_VERSION": "17.0.+"
       },
       "admob-plus-cordova": {
-        "APP_ID_ANDROID": "ca-app-pub-1805020580779621~1724439074",
+        "APP_ID_ANDROID": "ca-app-pub-1805020580779621~5551164443",
         "PLAY_SERVICES_VERSION": "23.0.0"
       },
       "cordova-plugin-androidx": {},
