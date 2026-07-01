@@ -10,7 +10,8 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ios": "rm -rf platforms plugins package-lock.json && ionic build && ionic cordova platform add ios",
-    "build:assets": "rm -rf www && ionic build && node scripts/generate_stickers_manifest.js"
+    "build:assets": "rm -rf www && ionic build && node scripts/generate_stickers_manifest.js",
+    "scrape:stickers": "node scripts/scrape_pinterest_stickers.js"
   },
   "resolutions": {
     "node-sass": "9.0.0"
@@ -67,6 +68,7 @@
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-support-android-plugin": "~2.0.4",
     "cordova-whatsapp-stickers": "file:plugins-local/cordova-whatsapp-stickers-vinoosir",
+    "puppeteer": "22.15.0",
     "sharp": "^0.35.2",
     "sql.js": "0.5.0",
     "typescript": "^3.1.1"
