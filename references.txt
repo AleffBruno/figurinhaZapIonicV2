@@ -1,0 +1,3 @@
+
+    
+ionic build && cordova build --release --prod  android && cd platforms/android && gradle bundle  && cd ../../ && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore minha-chave.keystore platforms/android/app/build/outputs/bundle/release/app-release.aab alias_name -storepass "102030"
