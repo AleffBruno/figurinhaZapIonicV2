@@ -51,6 +51,7 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
+    "admob-plus-cordova": "^1.28.0",
     "@ionic/app-scripts": "3.2.4",
     "@types/node": "^15.0.2",
     "cordova-android": "14.0.0",
@@ -84,6 +85,10 @@
       "cordova-plugin-add-swift-support": {},
       "cordova-plugin-idfa": {
         "ANDROID_PLAY_ADID_VERSION": "17.0.+"
+      },
+      "admob-plus-cordova": {
+        "APP_ID_ANDROID": "ca-app-pub-1805020580779621~1724439074",
+        "PLAY_SERVICES_VERSION": "23.0.0"
       },
       "cordova-plugin-androidx": {},
       "cordova-plugin-androidx-adapter": {},
