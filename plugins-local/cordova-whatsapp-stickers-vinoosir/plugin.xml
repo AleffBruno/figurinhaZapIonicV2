@@ -47,11 +47,11 @@
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
         <framework src="androidx.annotation:annotation:1.3.0" />
-        <framework src="com.facebook.fresco:fresco:2.6.0" />
-        <framework src="com.facebook.fresco:webpsupport:2.6.0" />
-        <framework src="com.facebook.fresco:animated-webp:2.6.0" />
-        <framework src="com.facebook.fresco:animated-base:2.6.0" />
-        <framework src="com.facebook.soloader:soloader:0.10.4" />
+        <framework src="com.facebook.fresco:fresco:3.7.0" />
+        <framework src="com.facebook.fresco:webpsupport:3.7.0" />
+        <framework src="com.facebook.fresco:animated-webp:3.7.0" />
+        <framework src="com.facebook.fresco:animated-base:3.7.0" />
+        <framework src="com.facebook.soloader:soloader:0.12.1" />
 
         <!-- The provider authority is derived from the app's applicationId so each app
              gets a unique authority (required by Google Play). ${applicationId} is a
