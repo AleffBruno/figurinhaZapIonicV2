@@ -1,0 +1,252 @@
+{
+  "scraped_at": "2026-07-07T17:27:40.598Z",
+  "source": "pinterest",
+  "source_url": "https://www.pinterest.com/search/pins/?q=Imagens%20Engracadas%20Para%20Figurinhas",
+  "query": "Imagens Engracadas Para Figurinhas",
+  "pack": "engracada_soquenao",
+  "min_long_edge": 512,
+  "min_short_edge": 256,
+  "prefer_originals": true,
+  "sources": [
+    {
+      "file": "01.png",
+      "url": "https://i.pinimg.com/originals/0a/c8/87/0ac8873e6db6896c5889d480503407c5.jpg",
+      "collected_url": "https://i.pinimg.com/originals/0a/c8/87/0ac8873e6db6896c5889d480503407c5.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "02.png",
+      "url": "https://i.pinimg.com/originals/b2/45/8e/b2458e3caeef15e670cfcbad227bc0f8.jpg",
+      "collected_url": "https://i.pinimg.com/originals/b2/45/8e/b2458e3caeef15e670cfcbad227bc0f8.jpg",
+      "collected_width": 4000,
+      "width": 876,
+      "height": 928
+    },
+    {
+      "file": "03.png",
+      "url": "https://i.pinimg.com/originals/67/82/8e/67828e90514f8117e5c9220ea5b7510e.jpg",
+      "collected_url": "https://i.pinimg.com/originals/67/82/8e/67828e90514f8117e5c9220ea5b7510e.jpg",
+      "collected_width": 4000,
+      "width": 495,
+      "height": 512
+    },
+    {
+      "file": "04.png",
+      "url": "https://i.pinimg.com/originals/98/20/be/9820be07f284c7e65e5ccb50daf92f0d.jpg",
+      "collected_url": "https://i.pinimg.com/originals/98/20/be/9820be07f284c7e65e5ccb50daf92f0d.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 720
+    },
+    {
+      "file": "05.png",
+      "url": "https://i.pinimg.com/originals/4e/92/a9/4e92a90625928f61b22b8fd4d1a7fdb7.jpg",
+      "collected_url": "https://i.pinimg.com/originals/4e/92/a9/4e92a90625928f61b22b8fd4d1a7fdb7.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 736
+    },
+    {
+      "file": "06.png",
+      "url": "https://i.pinimg.com/originals/e6/f8/e4/e6f8e4a99ed55efee280363cf97a14c3.jpg",
+      "collected_url": "https://i.pinimg.com/originals/e6/f8/e4/e6f8e4a99ed55efee280363cf97a14c3.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 626
+    },
+    {
+      "file": "07.png",
+      "url": "https://i.pinimg.com/originals/57/f4/4e/57f44e05db8e2b4a979adbd3321d1bdc.png",
+      "collected_url": "https://i.pinimg.com/originals/57/f4/4e/57f44e05db8e2b4a979adbd3321d1bdc.png",
+      "collected_width": 4000,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "file": "08.png",
+      "url": "https://i.pinimg.com/originals/60/06/c2/6006c2ee41fcccce377c0df7486b2f1b.jpg",
+      "collected_url": "https://i.pinimg.com/originals/60/06/c2/6006c2ee41fcccce377c0df7486b2f1b.jpg",
+      "collected_width": 4000,
+      "width": 588,
+      "height": 585
+    },
+    {
+      "file": "09.png",
+      "url": "https://i.pinimg.com/originals/3f/4f/fb/3f4ffbd01b3373e7c73c1b799532584f.jpg",
+      "collected_url": "https://i.pinimg.com/originals/3f/4f/fb/3f4ffbd01b3373e7c73c1b799532584f.jpg",
+      "collected_width": 4000,
+      "width": 380,
+      "height": 527
+    },
+    {
+      "file": "10.png",
+      "url": "https://i.pinimg.com/originals/d7/0e/53/d70e53f816b05eb8aa6b35751866f348.jpg",
+      "collected_url": "https://i.pinimg.com/originals/d7/0e/53/d70e53f816b05eb8aa6b35751866f348.jpg",
+      "collected_width": 4000,
+      "width": 1390,
+      "height": 1492
+    },
+    {
+      "file": "11.png",
+      "url": "https://i.pinimg.com/originals/0c/2f/58/0c2f58bcf4ce5d764e6ccf1a377b8e6d.jpg",
+      "collected_url": "https://i.pinimg.com/originals/0c/2f/58/0c2f58bcf4ce5d764e6ccf1a377b8e6d.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 719
+    },
+    {
+      "file": "12.png",
+      "url": "https://i.pinimg.com/originals/ae/68/15/ae68152723929d8bafac62b3489b23f2.jpg",
+      "collected_url": "https://i.pinimg.com/originals/ae/68/15/ae68152723929d8bafac62b3489b23f2.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 736
+    },
+    {
+      "file": "13.png",
+      "url": "https://i.pinimg.com/originals/73/6b/a9/736ba9f3baaf46cacd5d6274ecf9baa7.jpg",
+      "collected_url": "https://i.pinimg.com/originals/73/6b/a9/736ba9f3baaf46cacd5d6274ecf9baa7.jpg",
+      "collected_width": 4000,
+      "width": 750,
+      "height": 733
+    },
+    {
+      "file": "14.png",
+      "url": "https://i.pinimg.com/originals/f1/2d/a8/f12da8fbd0b1b2200b2b2309365c8963.jpg",
+      "collected_url": "https://i.pinimg.com/originals/f1/2d/a8/f12da8fbd0b1b2200b2b2309365c8963.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "15.png",
+      "url": "https://i.pinimg.com/originals/9d/7b/27/9d7b276e1898e82dad76707353a1d1e7.jpg",
+      "collected_url": "https://i.pinimg.com/originals/9d/7b/27/9d7b276e1898e82dad76707353a1d1e7.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 725
+    },
+    {
+      "file": "16.png",
+      "url": "https://i.pinimg.com/originals/1a/41/bf/1a41bf102820eef3ee75d3aecfc248ed.jpg",
+      "collected_url": "https://i.pinimg.com/originals/1a/41/bf/1a41bf102820eef3ee75d3aecfc248ed.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 711
+    },
+    {
+      "file": "17.png",
+      "url": "https://i.pinimg.com/originals/03/71/ad/0371ada8310377c549c57d98c8b8d63f.jpg",
+      "collected_url": "https://i.pinimg.com/originals/03/71/ad/0371ada8310377c549c57d98c8b8d63f.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 682
+    },
+    {
+      "file": "18.png",
+      "url": "https://i.pinimg.com/originals/ec/58/76/ec5876946ed378823cda39fe18b5dc3a.jpg",
+      "collected_url": "https://i.pinimg.com/originals/ec/58/76/ec5876946ed378823cda39fe18b5dc3a.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "19.png",
+      "url": "https://i.pinimg.com/originals/24/6e/45/246e4529dda270f18ff7c9ececb1464c.webp",
+      "collected_url": "https://i.pinimg.com/originals/24/6e/45/246e4529dda270f18ff7c9ececb1464c.webp",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "20.png",
+      "url": "https://i.pinimg.com/originals/e3/c4/15/e3c415830364aeb42d38fb614d186e6a.jpg",
+      "collected_url": "https://i.pinimg.com/originals/e3/c4/15/e3c415830364aeb42d38fb614d186e6a.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "21.png",
+      "url": "https://i.pinimg.com/originals/92/83/87/9283872c114a7d09824f8a6eaacf2de2.webp",
+      "collected_url": "https://i.pinimg.com/originals/92/83/87/9283872c114a7d09824f8a6eaacf2de2.webp",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "22.png",
+      "url": "https://i.pinimg.com/originals/52/fb/8b/52fb8b930e2e0c5c8c2ba3860fa276f6.jpg",
+      "collected_url": "https://i.pinimg.com/originals/52/fb/8b/52fb8b930e2e0c5c8c2ba3860fa276f6.jpg",
+      "collected_width": 4000,
+      "width": 555,
+      "height": 540
+    },
+    {
+      "file": "23.png",
+      "url": "https://i.pinimg.com/originals/75/da/50/75da50fa59bb4895fe30358783da3fb3.jpg",
+      "collected_url": "https://i.pinimg.com/originals/75/da/50/75da50fa59bb4895fe30358783da3fb3.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 1308
+    },
+    {
+      "file": "24.png",
+      "url": "https://i.pinimg.com/originals/5f/d6/68/5fd668f80d869d8d19c7369611bc2896.jpg",
+      "collected_url": "https://i.pinimg.com/originals/5f/d6/68/5fd668f80d869d8d19c7369611bc2896.jpg",
+      "collected_width": 4000,
+      "width": 960,
+      "height": 959
+    },
+    {
+      "file": "25.png",
+      "url": "https://i.pinimg.com/originals/2a/6e/e7/2a6ee76755c45f0187f9fe00096ca9af.webp",
+      "collected_url": "https://i.pinimg.com/originals/2a/6e/e7/2a6ee76755c45f0187f9fe00096ca9af.webp",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "26.png",
+      "url": "https://i.pinimg.com/originals/2b/dc/78/2bdc78861eac6fa862ebc0beebcf2651.jpg",
+      "collected_url": "https://i.pinimg.com/originals/2b/dc/78/2bdc78861eac6fa862ebc0beebcf2651.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "27.png",
+      "url": "https://i.pinimg.com/originals/66/f8/14/66f814d36019d075be3b0189a62afc77.jpg",
+      "collected_url": "https://i.pinimg.com/originals/66/f8/14/66f814d36019d075be3b0189a62afc77.jpg",
+      "collected_width": 4000,
+      "width": 1080,
+      "height": 1920
+    },
+    {
+      "file": "28.png",
+      "url": "https://i.pinimg.com/originals/c2/d3/5c/c2d35cb9b8b044755cf74446068cea26.jpg",
+      "collected_url": "https://i.pinimg.com/originals/c2/d3/5c/c2d35cb9b8b044755cf74446068cea26.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 760
+    },
+    {
+      "file": "29.png",
+      "url": "https://i.pinimg.com/originals/9a/4d/4a/9a4d4a8c0d3327de9b0a02a90e83eec7.jpg",
+      "collected_url": "https://i.pinimg.com/originals/9a/4d/4a/9a4d4a8c0d3327de9b0a02a90e83eec7.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "30.png",
+      "url": "https://i.pinimg.com/originals/c2/5d/84/c25d843d32da51ff3f716012a7ad7333.jpg",
+      "collected_url": "https://i.pinimg.com/originals/c2/5d/84/c25d843d32da51ff3f716012a7ad7333.jpg",
+      "collected_width": 4000,
+      "width": 700,
+      "height": 736
+    }
+  ]
+}

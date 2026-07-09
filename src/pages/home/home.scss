@@ -1,4 +1,20 @@
 page-home {
+
+  //css que altera propriedades do header padrão do ionic
+  .toolbar-background {
+      background-color: #005e53;;
+  }
+  .toolbar-title {
+      color: white;
+  }
+  .back-button {
+      color: white;   
+  }
+
+  .scroll-content {
+    background-color: #ded7cd;
+  }
+
   .loading-text {
     color: #999;
     margin-top: 40px;

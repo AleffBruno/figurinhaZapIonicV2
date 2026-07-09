@@ -1,0 +1,252 @@
+{
+  "scraped_at": "2026-07-06T21:52:04.737Z",
+  "source": "pinterest",
+  "source_url": "https://www.pinterest.com/search/pins/?q=figurinhas%20whatsapp%20cantadas",
+  "query": "figurinhas whatsapp cantadas",
+  "pack": "cantadinhas",
+  "min_long_edge": 512,
+  "min_short_edge": 256,
+  "prefer_originals": true,
+  "sources": [
+    {
+      "file": "01.png",
+      "url": "https://i.pinimg.com/originals/15/7c/95/157c955f749c85ff080bf4e3ac0a0660.webp",
+      "collected_url": "https://i.pinimg.com/originals/15/7c/95/157c955f749c85ff080bf4e3ac0a0660.webp",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "02.png",
+      "url": "https://i.pinimg.com/originals/f2/0d/9d/f20d9daa8261e9392cb65d666995fa3d.jpg",
+      "collected_url": "https://i.pinimg.com/originals/f2/0d/9d/f20d9daa8261e9392cb65d666995fa3d.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "03.png",
+      "url": "https://i.pinimg.com/originals/76/2b/ef/762bef4e485e7bda12684b284289d550.jpg",
+      "collected_url": "https://i.pinimg.com/originals/76/2b/ef/762bef4e485e7bda12684b284289d550.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "04.png",
+      "url": "https://i.pinimg.com/originals/de/f7/24/def7249b61c1bb1a814912a674ba0bdb.jpg",
+      "collected_url": "https://i.pinimg.com/originals/de/f7/24/def7249b61c1bb1a814912a674ba0bdb.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 736
+    },
+    {
+      "file": "05.png",
+      "url": "https://i.pinimg.com/originals/bc/17/5d/bc175d66dad7c767e54c173c7696a223.jpg",
+      "collected_url": "https://i.pinimg.com/originals/bc/17/5d/bc175d66dad7c767e54c173c7696a223.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "06.png",
+      "url": "https://i.pinimg.com/originals/e6/df/1e/e6df1eee77dd874b422c8e8746c6c8c4.jpg",
+      "collected_url": "https://i.pinimg.com/originals/e6/df/1e/e6df1eee77dd874b422c8e8746c6c8c4.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 735
+    },
+    {
+      "file": "07.png",
+      "url": "https://i.pinimg.com/originals/0a/b9/94/0ab994386781526e6fa276d55513ce0f.jpg",
+      "collected_url": "https://i.pinimg.com/originals/0a/b9/94/0ab994386781526e6fa276d55513ce0f.jpg",
+      "collected_width": 4000,
+      "width": 1028,
+      "height": 1148
+    },
+    {
+      "file": "08.png",
+      "url": "https://i.pinimg.com/originals/87/46/68/87466889ed80b283e29a4656047f1afc.png",
+      "collected_url": "https://i.pinimg.com/originals/87/46/68/87466889ed80b283e29a4656047f1afc.png",
+      "collected_width": 4000,
+      "width": 882,
+      "height": 898
+    },
+    {
+      "file": "09.png",
+      "url": "https://i.pinimg.com/originals/7c/f1/df/7cf1df59f89fa04b26a6ce2ff4f6a0e4.jpg",
+      "collected_url": "https://i.pinimg.com/originals/7c/f1/df/7cf1df59f89fa04b26a6ce2ff4f6a0e4.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 604
+    },
+    {
+      "file": "10.png",
+      "url": "https://i.pinimg.com/originals/0d/3b/ab/0d3babec870b7c4ed31043a2519a4551.jpg",
+      "collected_url": "https://i.pinimg.com/originals/0d/3b/ab/0d3babec870b7c4ed31043a2519a4551.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "11.png",
+      "url": "https://i.pinimg.com/originals/5c/17/15/5c17158d0e3230e6099851e4e3644a13.jpg",
+      "collected_url": "https://i.pinimg.com/originals/5c/17/15/5c17158d0e3230e6099851e4e3644a13.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "12.png",
+      "url": "https://i.pinimg.com/originals/90/a5/5d/90a55dbaa2fcb792ade68829c6ca3734.jpg",
+      "collected_url": "https://i.pinimg.com/originals/90/a5/5d/90a55dbaa2fcb792ade68829c6ca3734.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 736
+    },
+    {
+      "file": "13.png",
+      "url": "https://i.pinimg.com/originals/ef/36/77/ef3677fe2cd776aa842ac516cd8a1793.jpg",
+      "collected_url": "https://i.pinimg.com/originals/ef/36/77/ef3677fe2cd776aa842ac516cd8a1793.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 718
+    },
+    {
+      "file": "14.png",
+      "url": "https://i.pinimg.com/originals/67/3e/4a/673e4af58434d82f438976f80ff10848.jpg",
+      "collected_url": "https://i.pinimg.com/originals/67/3e/4a/673e4af58434d82f438976f80ff10848.jpg",
+      "collected_width": 4000,
+      "width": 1080,
+      "height": 904
+    },
+    {
+      "file": "15.png",
+      "url": "https://i.pinimg.com/originals/3b/b7/b7/3bb7b714361320eeab368eea4401f2a8.jpg",
+      "collected_url": "https://i.pinimg.com/originals/3b/b7/b7/3bb7b714361320eeab368eea4401f2a8.jpg",
+      "collected_width": 4000,
+      "width": 828,
+      "height": 819
+    },
+    {
+      "file": "16.png",
+      "url": "https://i.pinimg.com/originals/70/56/55/70565518f9753725a96e9ca778e71948.jpg",
+      "collected_url": "https://i.pinimg.com/originals/70/56/55/70565518f9753725a96e9ca778e71948.jpg",
+      "collected_width": 4000,
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "file": "17.png",
+      "url": "https://i.pinimg.com/originals/16/3a/08/163a0892463608c3b5f37c668c4402c3.jpg",
+      "collected_url": "https://i.pinimg.com/originals/16/3a/08/163a0892463608c3b5f37c668c4402c3.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 702
+    },
+    {
+      "file": "18.png",
+      "url": "https://i.pinimg.com/originals/5a/c8/ab/5ac8ab72846b59c16645fe23d3409bc2.jpg",
+      "collected_url": "https://i.pinimg.com/originals/5a/c8/ab/5ac8ab72846b59c16645fe23d3409bc2.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "19.png",
+      "url": "https://i.pinimg.com/originals/04/1d/07/041d0773761481424e01935a6389712d.jpg",
+      "collected_url": "https://i.pinimg.com/originals/04/1d/07/041d0773761481424e01935a6389712d.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 709
+    },
+    {
+      "file": "20.png",
+      "url": "https://i.pinimg.com/originals/cf/91/a1/cf91a1a239fb6064fa775856bb4b3860.png",
+      "collected_url": "https://i.pinimg.com/originals/cf/91/a1/cf91a1a239fb6064fa775856bb4b3860.png",
+      "collected_width": 4000,
+      "width": 881,
+      "height": 695
+    },
+    {
+      "file": "21.png",
+      "url": "https://i.pinimg.com/originals/d5/3a/91/d53a91e1d4a5489e31ea7bd1697d561a.jpg",
+      "collected_url": "https://i.pinimg.com/originals/d5/3a/91/d53a91e1d4a5489e31ea7bd1697d561a.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "22.png",
+      "url": "https://i.pinimg.com/originals/07/d9/2c/07d92c6957893f40f2f226da7ca8837d.jpg",
+      "collected_url": "https://i.pinimg.com/originals/07/d9/2c/07d92c6957893f40f2f226da7ca8837d.jpg",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 759
+    },
+    {
+      "file": "23.png",
+      "url": "https://i.pinimg.com/originals/81/ef/cf/81efcf42f1a52594d1f3d83d8acacb65.jpg",
+      "collected_url": "https://i.pinimg.com/originals/81/ef/cf/81efcf42f1a52594d1f3d83d8acacb65.jpg",
+      "collected_width": 4000,
+      "width": 735,
+      "height": 680
+    },
+    {
+      "file": "24.png",
+      "url": "https://i.pinimg.com/originals/40/40/70/4040704cbbe115dca91a2e23b14780c2.jpg",
+      "collected_url": "https://i.pinimg.com/originals/40/40/70/4040704cbbe115dca91a2e23b14780c2.jpg",
+      "collected_width": 4000,
+      "width": 512,
+      "height": 597
+    },
+    {
+      "file": "25.png",
+      "url": "https://i.pinimg.com/originals/59/c0/3a/59c03a4f1eff1bd425d22a153863243b.jpg",
+      "collected_url": "https://i.pinimg.com/originals/59/c0/3a/59c03a4f1eff1bd425d22a153863243b.jpg",
+      "collected_width": 4000,
+      "width": 538,
+      "height": 484
+    },
+    {
+      "file": "26.png",
+      "url": "https://i.pinimg.com/originals/48/1c/e9/481ce915be2b44d3447680d3cfef0f0a.jpg",
+      "collected_url": "https://i.pinimg.com/originals/48/1c/e9/481ce915be2b44d3447680d3cfef0f0a.jpg",
+      "collected_width": 4000,
+      "width": 736,
+      "height": 736
+    },
+    {
+      "file": "27.png",
+      "url": "https://i.pinimg.com/originals/20/b6/5d/20b65dae6a5a115fcbb674fceb1f2b63.webp",
+      "collected_url": "https://i.pinimg.com/originals/20/b6/5d/20b65dae6a5a115fcbb674fceb1f2b63.webp",
+      "collected_width": 4000,
+      "width": 563,
+      "height": 684
+    },
+    {
+      "file": "28.png",
+      "url": "https://i.pinimg.com/originals/75/e2/b5/75e2b590a650862026aecf94b41c6a25.jpg",
+      "collected_url": "https://i.pinimg.com/originals/75/e2/b5/75e2b590a650862026aecf94b41c6a25.jpg",
+      "collected_width": 4000,
+      "width": 750,
+      "height": 750
+    },
+    {
+      "file": "29.png",
+      "url": "https://i.pinimg.com/originals/a2/ce/e4/a2cee4a8f5526c7b9efeb8e9d91b1884.webp",
+      "collected_url": "https://i.pinimg.com/originals/a2/ce/e4/a2cee4a8f5526c7b9efeb8e9d91b1884.webp",
+      "collected_width": 4000,
+      "width": 720,
+      "height": 720
+    },
+    {
+      "file": "30.png",
+      "url": "https://i.pinimg.com/originals/b9/5c/6c/b95c6c6d4193c18ae8b0a2ad7cca3b8e.png",
+      "collected_url": "https://i.pinimg.com/originals/b9/5c/6c/b95c6c6d4193c18ae8b0a2ad7cca3b8e.png",
+      "collected_width": 4000,
+      "width": 887,
+      "height": 812
+    }
+  ]
+}
