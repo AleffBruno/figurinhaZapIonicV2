@@ -25,4 +25,9 @@ body.dark-theme {
   --wa-chat-bg: #333333;
 }
 
+ion-content .fixed-content {
+  top: auto !important;
+  height: auto !important;
+}
+
 //fim de my-modal

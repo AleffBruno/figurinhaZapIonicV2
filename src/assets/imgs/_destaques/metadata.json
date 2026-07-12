@@ -1,0 +1,25 @@
+{
+  "name": "_destaques",
+  "publisher": "FigurinhaZap",
+  "publisher_email": "",
+  "publisher_website": "",
+  "privacy_policy_website": "",
+  "license_agreement_website": "",
+  "animated": null,
+  "image_data_version": "2",
+  "image_hash": "63d435cd361242d093856f9db9e60e248e208554eca471d01d81044ca5427014",
+  "stickers": {
+    "06.webp": {
+      "emojis": [
+        "😀"
+      ],
+      "accessibility_text": ""
+    },
+    "30.webp": {
+      "emojis": [
+        "😀"
+      ],
+      "accessibility_text": ""
+    }
+  }
+}

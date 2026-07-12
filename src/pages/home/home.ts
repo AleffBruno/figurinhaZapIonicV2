@@ -5,6 +5,8 @@ import {
   Platform,
 } from "ionic-angular";
 
+declare let admob: any;
+
 declare const WhatsAppStickers: any;
 
 interface Sticker {
@@ -44,6 +46,22 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.loadPacks();
+    this.showAdmobBannerAds();
+  }
+
+  showAdmobBannerAds() {
+
+    if(!this.platform.is('cordova')) {
+      return;
+    }
+
+    let adConfig: any = {
+      // adUnitId: 'ca-app-pub-3940256099942544/9214589741', //test banner adaptativo
+      adUnitId: 'ca-app-pub-1805020580779621/4586014783',
+    }
+
+    const banner = new admob.BannerAd(adConfig);
+    banner.show();
   }
 
   private async loadPacks() {

@@ -61,6 +61,11 @@ function isPngFile(name) {
   return name.toLowerCase().endsWith('.png');
 }
 
+function isJpgFile(name) {
+  var lower = name.toLowerCase();
+  return lower.endsWith('.jpg') || lower.endsWith('.jpeg');
+}
+
 function sleep(ms) {
   return new Promise(function (resolve) { setTimeout(resolve, ms); });
 }
@@ -203,6 +208,55 @@ async function convertPngToWebp(packDir, pngName) {
   }
   fs.writeFileSync(webpPath, chosen);
   console.log('[stickers] Converted "' + pngName + '" -> "' + webpName + '" (' + Math.round(chosen.length / 1024) + 'KB).');
+  return webpName;
+}
+
+/**
+ * Convert a static JPG/JPEG sticker to a static WebP sticker (512x512,
+ * <=100KB) using sharp. Writes <basename>.webp next to the jpg. Returns the
+ * output filename, or null if conversion was skipped or failed. Mirrors
+ * convertPngToWebp. Pre-made .webp wins (jpg is skipped if a twin exists).
+ * JPG has no alpha channel, so the output is opaque WebP.
+ */
+async function convertJpgToWebp(packDir, jpgName) {
+  var base = jpgName.replace(/\.jpe?g$/i, '');
+  var webpName = base + '.webp';
+  var webpPath = path.join(packDir, webpName);
+  if (fs.existsSync(webpPath)) {
+    console.warn('[stickers] WARNING: "' + jpgName + '" skipped, pre-made "' + webpName + '" already exists.');
+    return null;
+  }
+  var sharp;
+  try {
+    sharp = require('sharp');
+  } catch (e) {
+    console.warn('[stickers] WARNING: "sharp" not installed, cannot convert "' + jpgName + '". Run: yarn add -D sharp');
+    return null;
+  }
+  var jpgPath = path.join(packDir, jpgName);
+  var qualities = [90, 80, 70, 60, 50, 40];
+  var limitBytes = STATIC_STICKER_FILE_LIMIT_KB * 1024;
+  var chosen = null;
+  for (var i = 0; i < qualities.length; i++) {
+    var buf;
+    try {
+      buf = await sharp(fs.readFileSync(jpgPath))
+        .resize(STICKER_EDGE, STICKER_EDGE, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .webp({ quality: qualities[i], alphaQuality: 100 })
+        .toBuffer();
+    } catch (e) {
+      console.warn('[stickers] WARNING: sharp failed to convert "' + jpgName + '": ' + e.message);
+      return null;
+    }
+    chosen = buf;
+    if (buf.length <= limitBytes) break;
+  }
+  if (chosen.length > limitBytes) {
+    console.warn('[stickers] WARNING: "' + jpgName + '" -> ' + Math.round(chosen.length / 1024) +
+      'KB exceeds the ' + STATIC_STICKER_FILE_LIMIT_KB + 'KB WhatsApp static limit.');
+  }
+  fs.writeFileSync(webpPath, chosen);
+  console.log('[stickers] Converted "' + jpgName + '" -> "' + webpName + '" (' + Math.round(chosen.length / 1024) + 'KB).');
   return webpName;
 }
 
@@ -444,7 +498,8 @@ function collectImageFiles(packDir) {
   var entries = fs.readdirSync(packDir);
   var images = entries.filter(function (name) {
     var lower = name.toLowerCase();
-    return lower.endsWith('.webp') || lower.endsWith('.gif') || lower.endsWith('.png');
+    return lower.endsWith('.webp') || lower.endsWith('.gif') || lower.endsWith('.png') ||
+      lower.endsWith('.jpg') || lower.endsWith('.jpeg');
   });
   images.sort();
   return images;
@@ -486,6 +541,11 @@ function buildDefaultStickersMap(srcPackDir) {
       }
     } else if (lower.endsWith('.png')) {
       var webpName = name.replace(/\.png$/i, '.webp');
+      if (!fs.existsSync(path.join(srcPackDir, webpName))) {
+        map[webpName] = { emojis: ['😀'], accessibility_text: '' };
+      }
+    } else if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) {
+      var webpName = name.replace(/\.jpe?g$/i, '.webp');
       if (!fs.existsSync(path.join(srcPackDir, webpName))) {
         map[webpName] = { emojis: ['😀'], accessibility_text: '' };
       }
@@ -564,6 +624,11 @@ async function buildPack(folderName, srcPackDir, wwwPackDir) {
   var pngs = entries.filter(function (n) { return isPngFile(n) && !isTrayFile(n); });
   for (var pn = 0; pn < pngs.length; pn++) {
     await convertPngToWebp(wwwPackDir, pngs[pn]);
+  }
+
+  var jpgs = entries.filter(isJpgFile);
+  for (var jp = 0; jp < jpgs.length; jp++) {
+    await convertJpgToWebp(wwwPackDir, jpgs[jp]);
   }
 
   entries = fs.readdirSync(wwwPackDir);
@@ -680,7 +745,7 @@ async function buildPack(folderName, srcPackDir, wwwPackDir) {
 async function cleanupPngInPacks(wwwImgsDir) {
   var removed = 0;
   var failed = 0;
-  var packNames = fs.readdirSync(wwwImgsDir);
+  var packNames = fs.readdirSync(wwwImgsDir).sort();
   for (var pi = 0; pi < packNames.length; pi++) {
     var packName = packNames[pi];
     var packDir = path.join(wwwImgsDir, packName);
@@ -688,7 +753,7 @@ async function cleanupPngInPacks(wwwImgsDir) {
     var files = fs.readdirSync(packDir);
     for (var fi = 0; fi < files.length; fi++) {
       var file = files[fi];
-      if ((isPngFile(file) || isGifFile(file)) && !isTrayFile(file)) {
+      if ((isPngFile(file) || isGifFile(file) || isJpgFile(file)) && !isTrayFile(file)) {
         var ok = await unlinkWithRetry(path.join(packDir, file));
         if (ok) {
           removed++;
@@ -714,7 +779,7 @@ module.exports = async function (ctx) {
   var manifestPath = path.join(root, 'www', 'contents.json');
 
   if (fs.existsSync(srcImgsDir)) {
-    var srcEntries = fs.readdirSync(srcImgsDir);
+    var srcEntries = fs.readdirSync(srcImgsDir).sort();
     for (var p = 0; p < srcEntries.length; p++) {
       var srcEntry = srcEntries[p];
       var srcPackDir = path.join(srcImgsDir, srcEntry);
@@ -735,7 +800,7 @@ module.exports = async function (ctx) {
     return;
   }
 
-  var entries = fs.readdirSync(wwwImgsDir);
+  var entries = fs.readdirSync(wwwImgsDir).sort();
   var packs = [];
 
   for (var i = 0; i < entries.length; i++) {

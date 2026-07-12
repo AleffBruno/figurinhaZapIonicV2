@@ -51,9 +51,9 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "admob-plus-cordova": "^1.28.0",
     "@ionic/app-scripts": "3.2.4",
     "@types/node": "^15.0.2",
+    "admob-plus-cordova": "^1.28.0",
     "cordova-android": "14.0.0",
     "cordova-ios": "^6.3.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
